@@ -1,0 +1,23 @@
+.content-res{
+    overflow: hidden;
+    white-space: nowrap;
+}
+.card{
+    max-height: 100%;
+    padding: 5px;
+}
+.name-res, .address-res{
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.name-res a{
+    color: black;
+}
+.name-res a:link { 
+    text-decoration: none; }
+.comment{
+    font-size: 10px;
+}
+.card-button-save{
+    margin-left: 50px;
+}

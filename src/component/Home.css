@@ -1,0 +1,6 @@
+.content-home{
+    display: flex;
+}
+.toolbar-left, .list-dish{
+    flex: 1;
+}

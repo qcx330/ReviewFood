@@ -1,0 +1,9 @@
+*{
+    font-family: Verdana;
+}
+#basic-nav-dropdown, .drop-item{
+    color: #00BF63;
+}
+.nav-dropdown-cate{
+    margin-right: 15px;
+}

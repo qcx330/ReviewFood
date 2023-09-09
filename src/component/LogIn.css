@@ -1,0 +1,18 @@
+.content-login{
+    position: absolute;
+    margin-top: 50px;
+    left: 30%;
+    text-align: center;
+    background-color: rgb(240, 243, 231, 0.8);
+    padding: 50px;
+    color: #00BF63;
+}
+#register{
+    position:absolute;
+    margin-top: 10px;
+    left: 30%;
+    text-align: center;
+    background-color: rgb(240, 243, 231, 0.8);
+    padding: 50px;
+    color: #00BF63;
+}
