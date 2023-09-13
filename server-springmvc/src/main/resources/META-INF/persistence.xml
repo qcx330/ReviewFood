@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence           http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+  <persistence-unit name="com.mxv_ReviewFood_war_1.0-SNAPSHOTPU" transaction-type="RESOURCE_LOCAL">
+    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+    <class>com.mxv.pojo.Menu</class>
+    <class>com.mxv.pojo.PlacedOrder</class>
+    <class>com.mxv.pojo.MenuItem</class>
+    <class>com.mxv.pojo.Follower</class>
+    <class>com.mxv.pojo.City</class>
+    <class>com.mxv.pojo.InOrder</class>
+    <class>com.mxv.pojo.CategoryRes</class>
+    <class>com.mxv.pojo.Offer</class>
+    <class>com.mxv.pojo.InOffer</class>
+    <class>com.mxv.pojo.Comment</class>
+    <class>com.mxv.pojo.Restaurant</class>
+    <class>com.mxv.pojo.User</class>
+    <exclude-unlisted-classes>false</exclude-unlisted-classes>
+    <properties>
+      <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/foodiedb?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
+      <property name="javax.persistence.jdbc.user" value="root"/>
+      <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+      <property name="javax.persistence.jdbc.password" value="Admin@123"/>
+    </properties>
+  </persistence-unit>
+</persistence>
