@@ -17,9 +17,10 @@ export const endpoints ={
     "add-comment": `${SERVER_CONTEXT}/api/comments/`,
     "menu": (restaurantId) => `${SERVER_CONTEXT}/api/restaurant/${restaurantId}/menu/`,
     "menu-item": (menuId) => `${SERVER_CONTEXT}/api/menu/${menuId}/`,
-    "create-restaurant": `${SERVER_CONTEXT}/api/restaurant/create/`,
+    "create-restaurant": `${SERVER_CONTEXT}/api/restaurant/add`,
     "follow": `${SERVER_CONTEXT}/api/follow/`,
-    "check-follow":(userId, restaurantId) => `${SERVER_CONTEXT}/api/check-follow?usserId=${userId}&restaurantId=${restaurantId}`,
+    "unfollow":`${SERVER_CONTEXT}/api/unfollow/`,
+
 }
 
 export const authApi = () => {

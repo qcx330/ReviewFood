@@ -7,6 +7,7 @@ import cookie from "react-cookies";
 const MenuItem = (props) => {
   const [, cartDispatch] = useContext(MyCartContext);
   const [item, setItem] = useState([]);
+
   useEffect(() => {
     const loadItem = async () => {
       let { data } = await Apis.get(endpoints["menu-item"](props.id));

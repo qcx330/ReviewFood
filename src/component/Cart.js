@@ -26,6 +26,15 @@ const Cart = () => {
         }
     }
 
+    const sum = () =>{
+        let total = 0;
+        for(const item in carts){
+            const itemTotal = item.unitPrice * item.quantity;
+            total += itemTotal;
+        }
+        return total;
+    }
+
     const updateItem = () => {
         cookie.save("cart", carts);
 
@@ -39,7 +48,7 @@ const Cart = () => {
     const pay = () => {
         const process = async () => {
             let res = await authApi().post(endpoints['pay'], carts);
-            if (res.status === 200) {
+            if (res.status === 201) {
                 cookie.remove("cart");
 
                 cartDispatch({
@@ -81,7 +90,7 @@ const Cart = () => {
                             <td>{c.unitPrice} VNĐ</td>
                             <td>
                                 <Form.Control type="number" value={carts[c.id]["quantity"]} onBlur={updateItem} 
-                                        onChange={e => setCarts({...carts, [c.id]: {...carts[c.id], "quantity": parseInt(e.target.value)}})}  />
+                                        onChange={e => setCarts({...carts, [c.id]: {...carts[c.id], "quantity": parseFloat(e.target.value)}})}  />
                             </td>
                             <td>
                                 <Button variant="danger" onClick={() => deleteItem(c)}>&times;</Button>
@@ -91,7 +100,7 @@ const Cart = () => {
                 
                 <tr>
                 <td colSpan="2">Tổng cộng</td>
-                <td>Đơn giá</td>
+                <td>{sum} VNĐ</td>
                 <td></td>
                 <td></td>
                 </tr>

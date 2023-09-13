@@ -41,6 +41,7 @@ const Detail = () => {
     const loadComments = async () => {
       let { data } = await Apis.get(endpoints["comments"](restaurantId));
       setComments(data);
+      console.log(data)
     };
 
     loadRestaurant();
@@ -51,11 +52,11 @@ const Detail = () => {
   const addComment = () => {
     const process = async () => {
       let { data } = await authApi().post(endpoints["add-comment"], {
-        content: content,
-        restaurant: res.id,
+        commentText: content,
+        restaurantId : res,
       });
-
       setComments([...comments, data]);
+      console.log(comments);
     };
 
     process();
@@ -63,27 +64,28 @@ const Detail = () => {
 
   const follow = () => {
     const process = async () => {
-      let response = await authApi().post(endpoints["follow"], 
-      {
-        "userId" : user,
-        "restaurantId" : res
-      });
-      if (response.status === 200) {
-        setIsFollowing("Following");
-        console.log(response);
-      } else console.log(response);
+      if (isFollowing !== "Following") {
+        let response = await authApi().post(endpoints["follow"], res);
+        // setIsFollowing(response.data);
+        if (response.status === 201) {
+          setIsFollowing("Following");
+        }
+        else if (response.status === 200) {
+          console.log(response);
+          setIsFollowing("Following");
+        }
+      } else {
+        let response = await authApi().delete(endpoints["unfollow"], {data : res});
+        if (response.status === 204)
+          setIsFollowing("Follow");
+        else console.log(restaurantId);
+      }
+
+      // }
+
     };
     process();
   };
-
-  useEffect(() =>{
-    const loadFollowing = async () => {
-      let response = await Apis.get(endpoints["check-follow"](user.id, restaurantId));
-      setIsFollowing(response.data);
-    };
-    loadFollowing();
-  }, [isFollowing]);
-
   if (res === null) return <MySpinner />;
 
   let url = `/login?next=/restaurant/${restaurantId}`;
@@ -94,8 +96,8 @@ const Detail = () => {
         <Card.ImgOverlay className="restaurant-overlay">
           <Card.Title className="text-overlay">{res.name}</Card.Title>
           <Card.Text className="text-overlay">{res.address}</Card.Text>
-          <button id="order-button" onClick={follow}>
-            {isFollowing}
+          <button id="order-button" onClick={follow} onChange={follow}>
+            {isFollowing === "" ? "Follow" : isFollowing}
           </button>
           <button id="order-button">Nhắn tin</button>
         </Card.ImgOverlay>
@@ -111,9 +113,9 @@ const Detail = () => {
             {menu &&
               menu.map((menu) => {
                 return (
-                  <div className="content-menu">
+                  <div className="content-menu" key={menu.id}>
                     <div>
-                      <h4 className="menu-name" key={menu.id}>
+                      <h4 className="menu-name" >
                         {menu.name}
                       </h4>
                       <MenuItem id={menu.id} />
@@ -123,15 +125,15 @@ const Detail = () => {
               })}
           </Tab>
           <Tab eventKey="comment" title="Bình luận">
-          {
-            comments.length === 0 ?  (
-            <Alert variant="info" className="mt-1">
-              Chưa có bình luận nào!
-            </Alert>
-          ) : <>
+            {
+              comments.length === 0 ? (
+                <Alert variant="info" className="mt-1">
+                  Chưa có bình luận nào!
+                </Alert>
+              ) : <>
 
-          </>
-          }
+              </>
+            }
             {user === null ? (
               <p>
                 Vui lòng <Link to={url}>đăng nhập</Link> để bình luận!{" "}
@@ -158,13 +160,13 @@ const Detail = () => {
                     <div className="user-comment">
                       <img
                         className="thumbnail-image"
-                        src={c.user.avatar === null ? avatar : c.user.avatar}
+                        src={c.userId.avatar === null ? avatar : c.userId.avatar}
                         roundedCircle
                         width="45"
                         height="35"
                         alt="user"
                       />
-                      {c.user.lastName} {c.user.firstName}
+                      {c.userId.lastName} {c.userId.firstName}
                     </div>
                     <div className="content-comment">
                       <div className="created-dated">
@@ -172,7 +174,7 @@ const Detail = () => {
                           {c.createdDate}
                         </Moment>
                       </div>
-                      {c.content}
+                      {c.commentText}
                     </div>
                   </ListGroup.Item>
                 ))}

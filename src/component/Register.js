@@ -23,12 +23,13 @@ const Register = () =>{
     const avatar = useRef();
     const nav = useNavigate();
 
+
     useEffect(() => {
 
         const loadCities = async () => {
           let res = await Apis.get(endpoints["cities"]);
           setCity(res.data);
-          setSelected(res.data[0]);
+          setSelected(res.data[0].id);
         };
     
         loadCities();
@@ -47,10 +48,12 @@ const Register = () =>{
         });
       };
 
+    // const selectAvatar = (evt) =>{
+    //     setUser({...user, ["file"]: evt.target.files[0]})
+    // }
+
     const select = (evt) =>{
-        const selectedValue =  evt.target.value;
-        const selectedObj = city.find((option) => option.id === selectedValue);
-        setSelected(selectedObj);
+        setSelected(evt.target.value);
     }
     const register = (evt) => {
         evt.preventDefault();
@@ -62,7 +65,8 @@ const Register = () =>{
                 if (field !== "confirmPass")
                     form.append(field, user[field]);
 
-            form.append("cityId", JSON.stringify(selected));
+            // form.append("cityId", JSON.stringify(selected));
+            form.append("cityId", selected);
             form.append("avatar", avatar.current.files[0]);
 
             setLoading(true)
@@ -76,7 +80,6 @@ const Register = () =>{
             setErr("Hệ thống bị lỗi!");
             }catch (e) {
                 console.error(e);
-                console.log(selected);
                 console.log(user);
                 for (const [key, value] of form.entries()) {
                     console.log(`${key}: ${value}`);
@@ -93,6 +96,7 @@ const Register = () =>{
 
     const change = (evt, field) => {
         setUser({...user, [field]: evt.target.value})
+        // setUser({...user, ["cityId"]: selected})
         setUser(current => {
             return {...current, [field]: evt.target.value}
         })
@@ -135,7 +139,7 @@ const Register = () =>{
             </Form.Group>
             <Form.Group className="mb-3">
             <Form.Label>Thành phố</Form.Label>
-          <Form.Select onChange={select} value={selected ? selected.value : ''}>
+          <Form.Select onChange={select} value={selected}>
           {city && city.map((c)=>(
             <option key={c.id} value={c.id}>{c.name}</option>
           ))}
@@ -143,7 +147,7 @@ const Register = () =>{
           </Form.Group>
             <Form.Group className="mb-3">
                 <Form.Label>Ảnh đại diện</Form.Label>
-                <Form.Control type="file" ref={avatar}  />
+                <Form.Control type="file" ref={avatar} />
             </Form.Group>
             <Form.Group className="mb-3">
                 {loading === true?<MySpinner />: <Button variant="success" type="submit">Đăng ký</Button>}
